@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6labs – Grid View</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600&family=Inter:wght@400;500&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- App shell -->
+  <div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <div class="logo-mark"></div>
+        <span class="logo-text">6labs</span>
+      </div>
+      <nav class="sidebar-nav">
+        <a class="nav-item active" href="#">Grid View</a>
+        <a class="nav-item" href="#">Sessions</a>
+        <a class="nav-item" href="#">Analytics</a>
+        <a class="nav-item" href="#">Settings</a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main">
+      <!-- Search / Input console -->
+      <div class="input-console">
+        <div class="input-wrap">
+          <input class="search-input" type="text" placeholder="Search sessions…" />
+          <button class="icon-btn search-action" aria-label="Search">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section header -->
+      <div class="section-header">
+        <span class="section-title">Recent Sessions</span>
+        <span class="section-count">63 results</span>
+      </div>
+
+      <!-- Video grid skeleton -->
+      <div class="video-grid">
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+        <div class="video-card skeleton"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ✦ Floating Button -->
+  <button class="fab" aria-label="New session">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+    </svg>
+    <span class="fab-label">New Session</span>
+  </button>
+
+  <script src="main.js"></script>
+</body>
+</html>

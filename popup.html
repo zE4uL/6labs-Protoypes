@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>6Labs — Popup Component</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&family=Inter:wght@400;500;600&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ──────────────────────────────────────────────────────────── */
+    :root {
+      --white:         #ffffff;
+      --base-700:      #332a4b;
+      --base-800:      #1c2542;
+      --base-900:      #030d2d;
+      --base-500:      #5b5273;
+      --accent:        #1770ef;
+      --accent-light:  #3589ff;
+      --warning:       #de5a48;
+      --warning-bg:    rgba(222, 90, 72, 0.10);
+      --warning-bd:    rgba(222, 90, 72, 0.30);
+      --shadow-popup:  0px 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-btn:    0px 8px 16px rgba(0, 0, 0, 0.10);
+      --f-display:     'Bricolage Grotesque', sans-serif;
+      --f-body:        'Poppins', sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--f-body);
+      background: #f0f2f8;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ─── OVERLAY ─────────────────────────────────────────────────────────── */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(3, 13, 45, 0.40);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      animation: fade-in .2s ease;
+    }
+
+    @keyframes fade-in {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ─── POPUP ───────────────────────────────────────────────────────────── */
+    .popup {
+      background: var(--white);
+      border-radius: 8px;
+      box-shadow: var(--shadow-popup);
+      padding: 16px;
+      width: 420px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: slide-up .22s cubic-bezier(.34, 1.56, .64, 1);
+    }
+
+    @keyframes slide-up {
+      from { opacity: 0; transform: translateY(10px) scale(.98); }
+      to   { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* ─── HEADER ──────────────────────────────────────────────────────────── */
+    .popup-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .popup-title {
+      flex: 1;
+      font-family: var(--f-display);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--base-500);
+      line-height: 1.5;
+      letter-spacing: 0;
+    }
+
+    .popup-close {
+      width: 16px; height: 16px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer;
+      color: var(--base-500);
+      background: none;
+      border: none;
+      padding: 0;
+      flex-shrink: 0;
+      opacity: .7;
+      transition: opacity .15s;
+    }
+    .popup-close:hover { opacity: 1; }
+    .popup-close svg { display: block; }
+
+    /* ─── NOTE / WARNING BOX ──────────────────────────────────────────────── */
+    .popup-note {
+      background: var(--warning-bg);
+      border: 1px solid var(--warning-bd);
+      border-radius: 4px;
+      padding: 12px 12px 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Left accent bar */
+    .popup-note::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; bottom: 0;
+      width: 4px;
+      background: var(--warning);
+      border-radius: 4px 0 0 4px;
+    }
+
+    .note-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .note-icon {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    .note-title {
+      font-family: var(--f-body);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--base-900);
+      line-height: 1.5;
+    }
+
+    .note-body {
+      font-family: var(--f-body);
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--base-700);
+      line-height: 1.5;
+      padding-left: 4px;
+    }
+
+    .note-body ul {
+      padding-left: 17px;
+    }
+
+    .note-body li {
+      list-style: disc;
+    }
+
+    .note-body a {
+      color: var(--accent-light);
+      text-decoration: underline;
+      text-decoration-skip-ink: none;
+      cursor: pointer;
+    }
+
+    .note-body a:hover { color: var(--accent); }
+
+    /* ─── ACTIONS ─────────────────────────────────────────────────────────── */
+    .popup-actions {
+      display: flex;
+      gap: 16px;
+    }
+
+    .popup-btn {
+      flex: 1;
+      font-family: var(--f-display);
+      font-size: 12px;
+      font-weight: 600;
+      line-height: 1.5;
+      letter-spacing: 0;
+      border-radius: 6px;
+      padding: 7px 16px;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity .15s, transform .15s;
+    }
+
+    .popup-btn:active { transform: scale(.98); }
+
+    .popup-btn-secondary {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      box-shadow: var(--shadow-btn);
+    }
+
+    .popup-btn-secondary:hover { background: rgba(23,112,239,.06); }
+
+    .popup-btn-primary {
+      background: var(--accent);
+      color: var(--white);
+      box-shadow: var(--shadow-btn);
+    }
+
+    .popup-btn-primary:hover { background: #1464d8; }
+
+    /* ─── DEMO TRIGGER ────────────────────────────────────────────────────── */
+    .demo-trigger {
+      font-family: var(--f-display);
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--white);
+      background: var(--accent);
+      border: none;
+      border-radius: 10px;
+      padding: 12px 24px;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(23,112,239,.4);
+      transition: background .2s, transform .15s;
+    }
+    .demo-trigger:hover { background: #1464d8; transform: translateY(-1px); }
+
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+
+  <!-- Demo trigger -->
+  <button class="demo-trigger" id="openBtn">Open Popup</button>
+
+  <!-- ═══ OVERLAY + POPUP ═══════════════════════════════════════════════════ -->
+  <div class="overlay hidden" id="overlay">
+    <div class="popup" role="dialog" aria-modal="true" aria-labelledby="popupTitle">
+
+      <!-- Header -->
+      <div class="popup-header">
+        <h2 class="popup-title" id="popupTitle">Enable Guardian</h2>
+        <button class="popup-close" id="closeBtn" aria-label="Close">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path d="M12 4L4 12M4 4l8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Warning Note -->
+      <div class="popup-note">
+        <div class="note-header">
+          <span class="note-icon">
+            <!-- Warning circle icon -->
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <circle cx="8" cy="8" r="7.5" fill="#DE5A48" stroke="#DE5A48" stroke-width=".5"/>
+              <rect x="7.25" y="4" width="1.5" height="5" rx=".75" fill="white"/>
+              <circle cx="8" cy="11" r=".75" fill="white"/>
+            </svg>
+          </span>
+          <span class="note-title">Important</span>
+        </div>
+        <div class="note-body">
+          <ul>
+            <li>Please make sure you have integrated our <a href="#">6labs SDK</a> before enabling the coach.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="popup-actions">
+        <button class="popup-btn popup-btn-secondary" id="cancelBtn">Cancel</button>
+        <button class="popup-btn popup-btn-primary">Enable Guardian</button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const overlay  = document.getElementById('overlay');
+    const openBtn  = document.getElementById('openBtn');
+    const closeBtn = document.getElementById('closeBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    const open  = () => overlay.classList.remove('hidden');
+    const close = () => overlay.classList.add('hidden');
+
+    openBtn.addEventListener('click', open);
+    closeBtn.addEventListener('click', close);
+    cancelBtn.addEventListener('click', close);
+
+    // Close on backdrop click
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+
+    // Close on Escape
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') close(); });
+  </script>
+
+</body>
+</html>
